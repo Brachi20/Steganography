@@ -1,60 +1,55 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Aug  2 22:37:23 2018
-
-@author: YQ
-"""
-
 import cv2
 import numpy as np
 import argparse
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-c", "--cover_image", required=True,
-                help="path to cover image")
-ap.add_argument("-m", "--message_image", required=True,
-                help="path to message image")
-ap.add_argument("-s", "--stego_image", required=True,
-                help="path to save stego image")
+ap.add_argument("-c", "--cover_image", required=True, help="path to cover image")
+ap.add_argument("-m", "--message_image", required=True, help="path to message image")
+ap.add_argument("-s", "--stego_image", required=True, help="path to save stego image")
+# ארגומנט חדש לשמירת תמונת המקור בשחור-לבן
+ap.add_argument("-o", "--original_gray", required=True, help="path to save original grayscale image")
 args = vars(ap.parse_args())
 
-# step 1: read the cover image and message image
-c_img = cv2.imread(args["cover_image"], 0)
+# שלב 1: קריאה ועיבוד תמונת המקור (Cover)
+c_img = cv2.imread(args["cover_image"], 0) # קריאה כגווני אפור
+if c_img is None:
+    print("Error: Could not read cover image")
+    exit()
+
 c_img = cv2.resize(c_img, (256, 256))
 
+# שמירת תמונת המקור בשחור-לבן לפני השינויים
+cv2.imwrite(args["original_gray"], c_img)
+print(f"Original grayscale image saved at: {args['original_gray']}")
+
+# עיבוד תמונת ההודעה
 m_img = cv2.imread(args["message_image"], 0)
+if m_img is None:
+    print("Error: Could not read message image")
+    exit()
 m_img = cv2.resize(m_img, (256, 256))
-m_img[m_img>0] = 1
+m_img[m_img > 0] = 1 
 
-
-# step 2: change the pixel value to binary
+# שלב 2: תחילת תהליך הסטגנוגרפיה (ללא שינוי מהקוד הקודם)
 c_flatten = c_img.flatten()
-#c_flatten = [np.binary_repr(x, width=8) for x in c_flatten]
+m_flatten = m_img.flatten()
 
-m_flatten = np.reshape(m_img, (-1,))
-
-# https://stackoverflow.com/questions/1523465/binary-numbers-in-python
 out = []
 for a, b in zip(c_flatten, m_flatten):
-    a = np.binary_repr(a, width=8)
-
-    # step 3: perform XOR operations on the 7th and on the 6th bit    
-    xor_a = int(a[1]) ^ int(a[2])
+    bin_a = np.binary_repr(a, width=8)
     
-    # step 4: perform XOR operations on 8th bit with xor_a
-    xor_b = int(a[0]) ^ xor_a
-    
-    # step 5: perform XOR operations on message bits with 3 MSB
+    # לוגיקת ה-XOR שלך
+    xor_a = int(bin_a[1]) ^ int(bin_a[2])
+    xor_b = int(bin_a[0]) ^ xor_a
     xor_c = int(b) ^ xor_b 
     
-    # step 6: save xor_c, convert back to uint8
-    save = a[:-1] + str(xor_c)
-    
-    # https://stackoverflow.com/questions/8928240/convert-base-2-binary-number-string-to-int
-    out.append(int(save, 2))
-    
-stego_img = np.array(out)
-stego_img = np.reshape(stego_img, (256, 256))
+    save_bin = bin_a[:-1] + str(xor_c)
+    out.append(int(save_bin, 2))
+
+# שלב 3: המרה חזרה למערך תמונה ושמירת תמונת הסטגנו
+stego_img_flat = np.array(out, dtype=np.uint8)
+stego_img = np.reshape(stego_img_flat, (256, 256))
 
 cv2.imwrite(args["stego_image"], stego_img)
-    
+print(f"Stego image saved at: {args['stego_image']}")
