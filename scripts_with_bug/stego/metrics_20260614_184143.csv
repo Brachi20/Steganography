@@ -1,0 +1,7 @@
+image,original,stego,mse,psnr_db
+barbara,scripts_with_bug\before-gray\barbara-gray.png,scripts_with_bug\stego\barbara-stego.png,0.261749,53.9519
+cameraman,scripts_with_bug\before-gray\cameraman-gray.png,scripts_with_bug\stego\cameraman-stego.png,0.226669,54.5769
+jetplane,scripts_with_bug\before-gray\jetplane-gray.png,scripts_with_bug\stego\jetplane-stego.png,0.153610,56.2666
+lena,scripts_with_bug\before-gray\lena-gray.png,scripts_with_bug\stego\lena-stego.png,0.206146,54.9890
+pentagon,scripts_with_bug\before-gray\pentagon-gray.png,scripts_with_bug\stego\pentagon-stego.png,0.272675,53.7744
+peppers,scripts_with_bug\before-gray\peppers-gray.png,scripts_with_bug\stego\peppers-stego.png,0.244415,54.2495
