@@ -1,0 +1,7 @@
+image,original,stego,mse,psnr_db
+barbara,images\before-gray\barbara-gray.png,images\stego\4_lsb\barbara-stego.png,74.597626,29.4036
+cameraman,images\before-gray\cameraman-gray.png,images\stego\4_lsb\cameraman-stego.png,68.367752,29.7823
+jetplane,images\before-gray\jetplane-gray.png,images\stego\4_lsb\jetplane-stego.png,75.997986,29.3228
+lena,images\before-gray\lena-gray.png,images\stego\4_lsb\lena-stego.png,70.653015,29.6395
+pentagon,images\before-gray\pentagon-gray.png,images\stego\4_lsb\pentagon-stego.png,75.943420,29.3259
+peppers,images\before-gray\peppers-gray.png,images\stego\4_lsb\peppers-stego.png,72.254745,29.5421
