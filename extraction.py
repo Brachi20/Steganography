@@ -10,10 +10,13 @@ import argparse
 import numpy as np
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-s", "--stego_image", required=True,
-                help="path to stego image")
-ap.add_argument("-r", "--recover_image", required=True,
-                help="path to save recovered image")
+# Default to `images/stego/lena-stego.png` and save recovered image under `images/secrets/`
+ap.add_argument("-s", "--stego_image", required=False,
+                default="images/stego/lena-stego.png",
+                help="path to stego image (default: images/stego/lena-stego.png)")
+ap.add_argument("-r", "--recover_image", required=False,
+                default="images/secrets/recovered-lena.png",
+                help="path to save recovered image (default: images/secrets/recovered-lena.png)")
 args = vars(ap.parse_args())
 
 # step 1: read stego image

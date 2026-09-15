@@ -4,11 +4,20 @@ import numpy as np
 import argparse
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-c", "--cover_image", required=True, help="path to cover image")
-ap.add_argument("-m", "--message_image", required=True, help="path to message image")
-ap.add_argument("-s", "--stego_image", required=True, help="path to save stego image")
+# Default paths adjusted to workspace `images/` subfolders
+ap.add_argument("-c", "--cover_image", required=False,
+                default="images/before-gray/lena-gray.png",
+                help="path to cover image (default: images/before-gray/lena-gray.png)")
+ap.add_argument("-m", "--message_image", required=False,
+                default="images/secrets/secret.png",
+                help="path to message image (default: images/secrets/secret.png)")
+ap.add_argument("-s", "--stego_image", required=False,
+                default="images/stego/lena-stego.png",
+                help="path to save stego image (default: images/stego/lena-stego.png)")
 # ארגומנט חדש לשמירת תמונת המקור בשחור-לבן
-ap.add_argument("-o", "--original_gray", required=True, help="path to save original grayscale image")
+ap.add_argument("-o", "--original_gray", required=False,
+                default="images/before-gray/lena-gray-original.png",
+                help="path to save original grayscale image (default: images/before-gray/lena-gray-original.png)")
 args = vars(ap.parse_args())
 
 # שלב 1: קריאה ועיבוד תמונת המקור (Cover)
